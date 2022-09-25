@@ -13,7 +13,7 @@ const authSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "User must have a emailId"],
-      unique: [true, "User mailId must be unique"],
+    unique: [true, "User mailId must be unique"],
     //validator
     validate: [validator.isEmail, "please provide a valid emailId"],
   },
@@ -21,20 +21,39 @@ const authSchema = new mongoose.Schema({
     type: Number,
   },
   fullName: {
-      type: String,
-      required: true,
-      //own validators
-      // validate: [validator.isAlpha, "User name must only contains alphabets"],
+    type: String,
+    required: true,
+    //own validators
+    // validate: [validator.isAlpha, "User name must only contains alphabets"],
     
   },
   password: {
     type: String,
     unique: true,
-    required:[true,'User must have a password'],
-    unique: [true,'User must have unique password'],
-    minLength:8
+    required: [true, 'User must have a password'],
+    unique: [true, 'User must have unique password'],
+    minLength: 8
   },
+  active: {
+    type: Boolean,
+    default: true,
+    select: false,
+  },
+  timestamps: true
+  
 });
+//Hash password
+authSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
+
+  this.password = await bcrypt.hash(this.password, 12);
+  next();
+});
+
+//Compare Password
+authSchema.methods.comparePassword = async function (dbPassword, userPassword) {
+  return await bcrypt.compare(dbPassword, userPassword);
+};
 
 const Auth = mongoose.model("Auth", authSchema);
 

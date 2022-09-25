@@ -4,18 +4,35 @@
   "description": "\"Instagram API\"",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon src/server.js"
+    "build": "babel src -d lib",
+    "start": "babel src -d lib && nodemon lib/server.js",
+    "start:prod": "babel src -d lib && NODE_ENV=production nodemon lib/server.js",
+    "start:dev": "babel src -d lib && NODE_ENV=development nodemon lib/server.js"
   },
   "author": "preetha",
   "license": "ISC",
   "dependencies": {
+    "babel-preset-es2015": "^6.24.1",
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.2",
     "express": "^4.18.1",
+    "express-fileupload": "^1.4.0",
+    "express-validator": "^6.14.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.6.1",
     "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.7.8",
     "nodemon": "^2.0.20",
     "slugify": "^1.6.5",
+    "socket.io": "^4.5.2",
     "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-polyfill": "^6.26.0",
+    "babel-runtime": "^6.26.0"
   }
 }
