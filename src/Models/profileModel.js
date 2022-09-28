@@ -11,7 +11,7 @@ const profileSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      unique: true,
+      // unique: true,
     //  validator:{validate: [isEmail, "invalid email"],} ,
       required: [true, "email is required"],
     },
@@ -23,12 +23,10 @@ const profileSchema = new mongoose.Schema(
     name: {
       type: String,
     },
-    // userName: {
-    //   type: String,
-    //   required: true,
-    //   unique: true,
-    //   sparse: true
-    // },
+    userName: {
+      type: String,
+      required: true
+    },
     
     gender: {
       type: String,

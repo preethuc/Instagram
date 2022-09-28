@@ -4,7 +4,7 @@ const commentSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Auth',
+      ref: 'User',
     },
     profile: {
       type: mongoose.Schema.Types.ObjectId,
@@ -28,7 +28,7 @@ const commentSchema = new mongoose.Schema(
       {
         user: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'Auth',
+          ref: 'User',
         },
         comment: {
           type: String,

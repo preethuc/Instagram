@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 // const slugify = require("slugify");
 const validator = require("validator");
-// const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 
 
-const authSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   userName: {
     type: String,
     require: true,
@@ -13,7 +13,6 @@ const authSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "User must have a emailId"],
-    unique: [true, "User mailId must be unique"],
     //validator
     validate: [validator.isEmail, "please provide a valid emailId"],
   },
@@ -38,16 +37,16 @@ const authSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
-  // timestamps: true
+//   timestamps: true
   
 });
 // //Hash password
-authSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
+// userSchema.pre('save', async function (next) {
+//   if (!this.isModified('password')) return next();
 
-  this.password = await bcrypt.hash(this.password, 12);
-  next();
-});
-const Auth = mongoose.model("Auth", authSchema);
+//   this.password = await bcrypt.hash(this.password, 12);
+//   next();
+// });
+const User = mongoose.model("User", userSchema);
 
-module.exports = Auth;
+module.exports = User;

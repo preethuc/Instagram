@@ -7,6 +7,8 @@ const app = express();
 
 const authRoute = require("../src/Routes/authRoute");
 const profileRoute = require("../src/Routes/profileRoute");
+// const postRoute = require("../src/Routes/postRoute");
+
 
 //MIDDLEWARE
 app.use(morgan("dev"));
@@ -18,7 +20,8 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/insta', authRoute)
-app.use('/api/instagram',profileRoute)
+app.use('/api/instagram', profileRoute)
+// app.use('/api/post',postRoute)
 
 //error handling function
 // app.all("*", (req, res, next) => {
