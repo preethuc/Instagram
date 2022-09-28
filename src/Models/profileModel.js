@@ -1,14 +1,10 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 
-const { isEmail } = validator;
+// const { isEmail } = validator;
 
 const profileSchema = new mongoose.Schema(
   {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Auth",
-    },
     bio: {
       type: String,
       trim: true,
@@ -16,7 +12,7 @@ const profileSchema = new mongoose.Schema(
     email: {
       type: String,
       unique: true,
-      validate: [isEmail, "invalid email"],
+    //  validator:{validate: [isEmail, "invalid email"],} ,
       required: [true, "email is required"],
     },
     accountType: {
@@ -24,30 +20,24 @@ const profileSchema = new mongoose.Schema(
       enum: ["public", "private"],
       default: "public",
     },
-    website: {
-      type: String,
-    },
     name: {
       type: String,
     },
-    username: {
-      type: String,
-      required: [true, "username is required"],
-      unique: true,
-    },
+    // userName: {
+    //   type: String,
+    //   required: true,
+    //   unique: true,
+    //   sparse: true
+    // },
+    
     gender: {
       type: String,
       select: false,
     },
-    birthday: {
-      type: Date,
-      select: false,
-    },
-    closeFriends: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Auth",
-      select: false,
-    },
+    // birthday: {
+    //   type: Date,
+    //   select: false,
+    // },
     followers: {
       type: Map,
       of: {
@@ -69,33 +59,10 @@ const profileSchema = new mongoose.Schema(
       },
       default: {},
     },
-    requests: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Profile",
-        select: false,
-      },
-    ],
   },
-  {
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
-  }
+ 
 );
 
-profileSchema.set("toObject", { virtuals: true });
-profileSchema.set("toJSON", { virtuals: true });
-
-profileSchema.virtual("posts", {
-  ref: "Post",
-  localField: "_id",
-  foreignField: "profile",
-});
-
-profileSchema.pre(/^find/, function (next) {
-  this.find().populate("posts");
-  next();
-});
 
 const Profile = mongoose.model("Profile", profileSchema);
 module.exports = Profile;

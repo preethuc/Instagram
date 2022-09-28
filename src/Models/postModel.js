@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Profile = require('./Profile');
+const Profile = require('../Models/profileModel');
 
 const postSchema = new mongoose.Schema(
   {
@@ -35,47 +35,10 @@ const postSchema = new mongoose.Schema(
       ref: 'Comment',
     },
   },
-  {
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
-  }
+
 );
 
-postSchema.set('toObject', { virtuals: true });
-postSchema.set('toJSON', { virtuals: true });
 
-postSchema.virtual('commentsPost', {
-  ref: 'Comment',
-  localField: '_id',
-  foreignField: 'post',
-});
-
-postSchema.pre('save', function (next) {
-  let caption = this.caption.replace(/\s/g, '');
-  console.log(caption);
-  let hashTagIndex = caption.indexOf('#');
-  if (hashTagIndex === -1) {
-    this.hashtag = undefined;
-    return next();
-  }
-  let hashTagSplice = caption.slice(hashTagIndex);
-  //let res= hashTagSplice.replace(/#/, '').split('#');
-
-  this.hashtag = hashTagSplice.replace(/#/, '').split('#');
-  next();
-});
-
-postSchema.methods.getProfileId = async function (id) {
-  const { _id } = await Profile.findOne({ user: id });
-  return _id;
-};
-
-//Todo
-postSchema.pre(/^find/, function (next) {
-  this.find().populate('commentsPost');
-
-  next();
-});
 
 const Post = mongoose.model('Post', postSchema);
 

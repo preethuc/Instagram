@@ -51,22 +51,5 @@ const commentSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
-
-commentSchema.pre(/^find/, function (next) {
-  this.find()
-    .populate('profile')
-    .populate({
-      path: 'likes',
-      select: 'username user name photo _id',
-    })
-    .populate({
-      path: 'reply.like',
-      select: 'username user name photo _id',
-    })
-    .populate('reply.profiles');
-
-  next();
-});
-
 const Comment = mongoose.model('Comment', commentSchema);
 module.exports = Comment;

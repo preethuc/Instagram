@@ -28,11 +28,7 @@ const notifiSchema = new mongoose.Schema({
   },
 });
 
-notifiSchema.pre(/^find/, function (next) {
-  this.find().populate('user post');
 
-  next();
-});
 
 const Notifi = mongoose.model('Notifi', notifiSchema);
 module.exports = Notifi;

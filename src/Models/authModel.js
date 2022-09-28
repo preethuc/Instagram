@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const slugify = require("slugify");
+// const slugify = require("slugify");
 const validator = require("validator");
-const bcrypt = require('bcryptjs');
+// const bcrypt = require('bcryptjs');
 
 
 const authSchema = new mongoose.Schema({
@@ -25,7 +25,6 @@ const authSchema = new mongoose.Schema({
     required: true,
     //own validators
     // validate: [validator.isAlpha, "User name must only contains alphabets"],
-    
   },
   password: {
     type: String,
@@ -39,22 +38,16 @@ const authSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
-  timestamps: true
+  // timestamps: true
   
 });
-//Hash password
+// //Hash password
 authSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
 
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
-
-//Compare Password
-authSchema.methods.comparePassword = async function (dbPassword, userPassword) {
-  return await bcrypt.compare(dbPassword, userPassword);
-};
-
 const Auth = mongoose.model("Auth", authSchema);
 
 module.exports = Auth;

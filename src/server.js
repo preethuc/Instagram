@@ -12,13 +12,13 @@ mongoose.connection
 
 //Unhandled promise rejection--error outside express
 //without connecting MongoDB
-process.on('unhandledRejection', err =>{
-  console.log(err.name,err.message)
-  console.log('U1NHANDLED REJECTION! , Shutting Down.....!')
-  server.close(() =>{
-    process.exit(1)
-  })
-})
+// process.on('unhandledRejection', err =>{
+//   console.log(err.name,err.message)
+//   console.log('U1NHANDLED REJECTION! , Shutting Down.....!')
+//   server.close(() =>{
+//     process.exit(1)
+//   })
+// })
 //server
 app.listen(3000, () =>
   console.log("Listening on the port 3000")
